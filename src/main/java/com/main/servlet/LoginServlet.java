@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
         UserProfile authProfile = new UserProfile(login, pass, email);
 
 
-        if (accountService.AuthorizateUser(authProfile, req.getSession().getId())){
+        if (accountService.AuthorizateUser(authProfile, req.getSession())){
             resp.sendRedirect("/files");
         }
         else{

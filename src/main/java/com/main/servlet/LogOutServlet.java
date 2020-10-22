@@ -12,7 +12,7 @@ public class LogOutServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        accountService.Quit(req.getSession().getId());
+        accountService.Quit(req.getSession());
         resp.sendRedirect("/login/");
     }
 }

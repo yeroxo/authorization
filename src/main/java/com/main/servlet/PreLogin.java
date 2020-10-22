@@ -16,7 +16,7 @@ public class PreLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
-        if (accountService.CheckSessionId(req.getSession().getId())){
+        if (accountService.CheckSessionId(req.getSession())){
             resp.sendRedirect("/files");
         }
         else{

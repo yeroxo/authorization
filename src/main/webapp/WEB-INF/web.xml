@@ -22,12 +22,9 @@
     <servlet-name>LogServlet</servlet-name>
     <servlet-class>com.main.servlet.LoginServlet</servlet-class>
   </servlet>
-
-
-
   <servlet>
     <servlet-name>registration</servlet-name>
-    <jsp-file>/registration.html</jsp-file>
+    <jsp-file>/pages/registration.html</jsp-file>
   </servlet>
 
   <servlet-mapping>

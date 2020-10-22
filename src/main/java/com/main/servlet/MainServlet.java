@@ -1,5 +1,6 @@
 package com.main.servlet;
 
+
 import com.database.dataSet.FileModel;
 import com.main.tech.Accounts.AccountService;
 
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,11 +27,11 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String sessionId = req.getSession().getId();
+        HttpSession sessionId = req.getSession();
         String login;
 
         if(!accountService.CheckSessionId(sessionId)){
-            resp.getWriter().println("Advena. Commodo signum in");
+            resp.getWriter().println("sessionID error");
             return;
         }
         else{

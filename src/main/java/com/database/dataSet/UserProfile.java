@@ -6,8 +6,8 @@ public class UserProfile {
     @Id
     @Column(name = "login")
     private String login;
-    @Column(name = "passsword")
-    private String passsword;
+    @Column(name = "password")
+    private String password;
     @Column(name = "email")
     private String email;
 
@@ -15,13 +15,13 @@ public class UserProfile {
 
     }
 
-    public UserProfile(String login, String passsword, String email) {
+    public UserProfile(String login, String password, String email) {
         this.login = login;
-        this.passsword = passsword;
+        this.password = password;
         this.email = email;
     }
 
     public String getLogin() {return login;}
-    public String getPasssword() {return passsword;}
+    public String getPassword() {return password;}
     public String getEmail() {return email;}
 }

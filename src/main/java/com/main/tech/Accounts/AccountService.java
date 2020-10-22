@@ -4,11 +4,10 @@ import com.database.DBService;
 import com.database.dataSet.UserProfile;
 import org.hibernate.HibernateException;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
 public class AccountService {
-    private static Map<String, UserProfile> sessionBase = new HashMap<>();
     private DBService base = new DBService();
 
     public AccountService() {
@@ -20,18 +19,25 @@ public class AccountService {
             return false;
         }
         try {
-            base.addUser(user.getLogin(), user.getPasssword(), user.getEmail());
-        } catch (HibernateException e) {
+            base.addUser(user.getLogin(), user.getPassword(), user.getEmail());
+        } catch (SQLException e) { //Hibernate exception
             return false;
         }
         return true;
     }
 
-    public boolean AuthorizateUser(UserProfile authProfile, String sessionID) {
+    public boolean FindUser(String login){
+        if(base.getUser(login) == null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean AuthorizateUser(UserProfile authProfile, HttpSession sessionID) {
         UserProfile baseProfile = base.getUser(authProfile.getLogin());
         if (baseProfile != null) {
-            if (baseProfile.getPasssword().compareTo(authProfile.getPasssword()) == 0) {
-                sessionBase.put(sessionID, baseProfile);
+            if (baseProfile.getPassword().compareTo(authProfile.getPassword()) == 0) {
+                sessionID.setAttribute("user", baseProfile);
                 return true;
             }
             return false;
@@ -39,23 +45,23 @@ public class AccountService {
         return false;
     }
 
-    public String getLoginBySessionId(String sessionID) {
-        if (sessionBase.containsKey(sessionID)) {
-            return sessionBase.get(sessionID).getLogin();
+    public String getLoginBySessionId(HttpSession sessionID) {
+        if (sessionID.getAttribute("user") != null) {
+            return ((UserProfile) sessionID.getAttribute("user")).getLogin();
         }
         return null;
     }
 
-    public boolean CheckSessionId(String sessionID) {
-        if (sessionBase.containsKey(sessionID)) {
+    public boolean CheckSessionId(HttpSession sessionID) {
+        if (sessionID.getAttribute("user") != null) {
             return true;
         }
         return false;
     }
 
-    public boolean Quit(String sessionID) {
-        if (sessionBase.containsKey(sessionID)) {
-            sessionBase.remove(sessionID);
+    public boolean Quit(HttpSession sessionID) {
+        if (sessionID.getAttribute("user") != null) {
+            sessionID.removeAttribute("user");
             return true;
         }
         return false;
